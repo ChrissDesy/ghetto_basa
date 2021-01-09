@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>762268c2-74d3-40b9-8dc9-643794cc1a36</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>SharedResources</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)DTOs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Models\AuditTrails.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\AuthenticatedUser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ghettoBasaContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\JobBids.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Jobs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Ratings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Reviews.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SystemUsers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\UserCredentials.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Users.cs" />
+  </ItemGroup>
+</Project>

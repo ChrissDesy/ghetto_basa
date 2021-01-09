@@ -11,4 +11,6 @@
     <PackageReference Include="MySql.Data.EntityFramework" Version="8.0.22" />
   </ItemGroup>
 
+  <Import Project="..\SharedResources\SharedResources.projitems" Label="Shared" />
+
 </Project>

@@ -3,13 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28729.10
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ghettoBasa", "ghettoBasa\ghettoBasa.csproj", "{B6B3C061-1C23-424F-AE3F-52397D7044A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ghettoBasa", "ghettoBasa\ghettoBasa.csproj", "{B6B3C061-1C23-424F-AE3F-52397D7044A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer", "IdentityServer\IdentityServer.csproj", "{296BF970-1B19-43B7-9633-119C749E9BA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer", "IdentityServer\IdentityServer.csproj", "{296BF970-1B19-43B7-9633-119C749E9BA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ghettoBasaFrontEnd", "ghettoBasaFrontEnd\ghettoBasaFrontEnd.csproj", "{7D89967B-8241-4E3A-8F89-44D03E67C706}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ghettoBasaFrontEnd", "ghettoBasaFrontEnd\ghettoBasaFrontEnd.csproj", "{7D89967B-8241-4E3A-8F89-44D03E67C706}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedResources", "SharedResources\SharedResources.shproj", "{762268C2-74D3-40B9-8DC9-643794CC1A36}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		SharedResources\SharedResources.projitems*{762268c2-74d3-40b9-8dc9-643794cc1a36}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
