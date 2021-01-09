@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.2",
-    "signature": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+    "signature": "e7dcc327be5e73c39f782c146737fac14e79b1ad"
   },
   "compilationOptions": {
     "defines": [
@@ -26,13 +26,25 @@
         "dependencies": {
           "Microsoft.AspNetCore.App": "2.2.0",
           "Microsoft.AspNetCore.Razor.Design": "2.2.0",
-          "Microsoft.NETCore.App": "2.2.0"
+          "Microsoft.NETCore.App": "2.2.0",
+          "MySql.Data.EntityFramework": "8.0.22"
         },
         "runtime": {
           "ghettoBasa.dll": {}
         },
         "compile": {
           "ghettoBasa.dll": {}
+        }
+      },
+      "MySql.Data.EntityFramework/8.0.22": {
+        "runtime": {
+          "lib/net452/MySql.Data.EntityFramework.dll": {
+            "assemblyVersion": "8.0.22.0",
+            "fileVersion": "8.0.22.0"
+          }
+        },
+        "compile": {
+          "lib/net452/MySql.Data.EntityFramework.dll": {}
         }
       },
       "Microsoft.AspNet.WebApi.Client/5.2.6": {
@@ -3236,6 +3248,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "MySql.Data.EntityFramework/8.0.22": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-rLBIo16UDkCY8j5IpTS6YL7BTbLjNMgkOvPuGmwJyONMz/785N0N/Bjeqsh/SmkzTrvJK3TW6kgL9hiyt6ZooA==",
+      "path": "mysql.data.entityframework/8.0.22",
+      "hashPath": "mysql.data.entityframework.8.0.22.nupkg.sha512"
     },
     "Microsoft.AspNet.WebApi.Client/5.2.6": {
       "type": "package",
