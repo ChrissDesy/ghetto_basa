@@ -1,0 +1,14 @@
+A:\My Stuff\ghetto_basa\ghettoBasa\IdentityServer\bin\Debug\netcoreapp2.2\IdentityServer.deps.json
+A:\My Stuff\ghetto_basa\ghettoBasa\IdentityServer\bin\Debug\netcoreapp2.2\IdentityServer.runtimeconfig.json
+A:\My Stuff\ghetto_basa\ghettoBasa\IdentityServer\bin\Debug\netcoreapp2.2\IdentityServer.runtimeconfig.dev.json
+A:\My Stuff\ghetto_basa\ghettoBasa\IdentityServer\bin\Debug\netcoreapp2.2\IdentityServer.dll
+A:\My Stuff\ghetto_basa\ghettoBasa\IdentityServer\bin\Debug\netcoreapp2.2\IdentityServer.pdb
+A:\My Stuff\ghetto_basa\ghettoBasa\IdentityServer\obj\Debug\netcoreapp2.2\IdentityServer.csprojAssemblyReference.cache
+A:\My Stuff\ghetto_basa\ghettoBasa\IdentityServer\obj\Debug\netcoreapp2.2\IdentityServer.csproj.CoreCompileInputs.cache
+A:\My Stuff\ghetto_basa\ghettoBasa\IdentityServer\obj\Debug\netcoreapp2.2\IdentityServer.RazorAssemblyInfo.cache
+A:\My Stuff\ghetto_basa\ghettoBasa\IdentityServer\obj\Debug\netcoreapp2.2\IdentityServer.RazorAssemblyInfo.cs
+A:\My Stuff\ghetto_basa\ghettoBasa\IdentityServer\obj\Debug\netcoreapp2.2\IdentityServer.AssemblyInfoInputs.cache
+A:\My Stuff\ghetto_basa\ghettoBasa\IdentityServer\obj\Debug\netcoreapp2.2\IdentityServer.AssemblyInfo.cs
+A:\My Stuff\ghetto_basa\ghettoBasa\IdentityServer\obj\Debug\netcoreapp2.2\IdentityServer.RazorTargetAssemblyInfo.cache
+A:\My Stuff\ghetto_basa\ghettoBasa\IdentityServer\obj\Debug\netcoreapp2.2\IdentityServer.dll
+A:\My Stuff\ghetto_basa\ghettoBasa\IdentityServer\obj\Debug\netcoreapp2.2\IdentityServer.pdb

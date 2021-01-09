@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SharedResources.Models;
 
 namespace ghettoBasa.Controllers
 {
@@ -10,6 +11,11 @@ namespace ghettoBasa.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private ghettoBasaContext ctx;
+        public ValuesController(ghettoBasaContext context)
+        {
+            ctx = context;
+        }
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
@@ -19,9 +25,11 @@ namespace ghettoBasa.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public IEnumerable<Users> Get(int id)
         {
-            return "value";
+            var data = ctx.Users;
+
+            return data;
         }
 
         // POST api/values
