@@ -189,6 +189,7 @@ CREATE TABLE IF NOT EXISTS `ghettobasa`.`SystemUsers` (
   `hash` VARCHAR(200) NULL,
   `deleted` TINYINT NULL,
   `userRefe` VARCHAR(45) NULL,
+  `resetRequest` VARCHAR(200) NULL DEFAULT 'none',
   PRIMARY KEY (`id`),
   INDEX `user\_idx` (`userRefe` ASC) ,
   CONSTRAINT `user2`
