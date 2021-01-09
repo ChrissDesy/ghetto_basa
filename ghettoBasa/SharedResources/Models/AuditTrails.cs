@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SharedResources.Models
 {
-    class AuditTrails
+    public class AuditTrails
     {
         public int Id { get; set; }
         public string UserRefere { get; set; }

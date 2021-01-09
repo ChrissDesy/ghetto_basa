@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SharedResources.Models
 {
-    class JobBids
+    public class JobBids
     {
         public int Id { get; set; }
         public string JobRef { get; set; }

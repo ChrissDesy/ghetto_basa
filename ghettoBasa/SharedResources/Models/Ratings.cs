@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SharedResources.Models
 {
-    class Ratings
+    public class Ratings
     {
         public int Id { get; set; }
         public string UserRefer { get; set; }

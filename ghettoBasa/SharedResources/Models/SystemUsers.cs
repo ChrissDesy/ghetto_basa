@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SharedResources.Models
 {
-    class SystemUsers
+    public class SystemUsers
     {
         public int Id { get; set; }
         public string UserType { get; set; }
