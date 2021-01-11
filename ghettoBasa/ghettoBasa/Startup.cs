@@ -13,6 +13,8 @@ using Microsoft.Extensions.Options;
 using SharedResources.Models;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.EntityFrameworkCore.Extensions;
+using ghettoBasa.Repositories;
+using ghettoBasa.Services;
 
 namespace ghettoBasa
 {
@@ -28,8 +30,16 @@ namespace ghettoBasa
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // make a database context connection
             services.AddDbContext<ghettoBasaContext>(o => o.UseMySQL(Configuration.GetConnectionString("ghettoBasaDB")));
+
+            // inject repository patterns, interfaces and services
+            services.AddScoped<IUserRepository, UsersService>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            // adding swagger documentation
+            services.AddSwaggerDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +57,10 @@ namespace ghettoBasa
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            // Register the Swagger generator and the Swagger UI middlewares
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
         }
     }
 }
