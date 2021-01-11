@@ -35,6 +35,7 @@ namespace ghettoBasa
 
             // inject repository patterns, interfaces and services
             services.AddScoped<IUserRepository, UsersService>();
+            services.AddScoped<IJobRepository, JobsService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 

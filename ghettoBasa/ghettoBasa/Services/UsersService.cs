@@ -86,7 +86,7 @@ namespace ghettoBasa.Services
             return users;
         }
 
-        public IEnumerable<Users> SearchUsers(string Parameter)
+        public IEnumerable<Users> SearchUsers(string[] Parameter)
         {
             throw new NotImplementedException();
         }

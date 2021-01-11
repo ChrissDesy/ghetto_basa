@@ -16,7 +16,7 @@ namespace ghettoBasa.Repositories
         Users GetUserByIdentity(string Natid);
         void CreateUser(Users user);
         bool UpdateUser(Users user);
-        IEnumerable<Users> SearchUsers(string Parameter);
+        IEnumerable<Users> SearchUsers(string[] Parameter);
         IEnumerable<Users> GetDeletedUsers();
         bool UserDeleteStatus(string UserId, bool action);
         bool UserStatus(string UserId, string action);
