@@ -8,6 +8,7 @@ namespace ghettoBasa.Repositories
 {
     public interface IJobRepository
     {
+        // Jobs Management
         IEnumerable<Jobs> GetJobs();
         IEnumerable<Jobs> GetUserJobs(string UserId);
         Jobs GetJob(string JobId);
@@ -19,5 +20,17 @@ namespace ghettoBasa.Repositories
         IEnumerable<Jobs> GetDeletedJobs();
         IEnumerable<Jobs> SearchJobs(string[] Parameter);
         IEnumerable<Jobs> GetFilteredJobs(string[] Filters);
+
+
+        // Job Bids Management
+        IEnumerable<JobBids> GetJobBids(string JobId);
+        IEnumerable<JobBids> GetUserJobBids(string UserId);
+        IEnumerable<Jobs> GetUserSuccessfulJobBids(string UserId);
+        JobBids GetJobBid(int JobId);
+        void CreateJobBid(JobBids bids);
+        bool JobBidDeleteStatus(int BidId, bool action);
+        bool JobBidStatus(string JobId, string action);
+        bool UpdateJobBid(JobBids jobBid);
+        bool UpdateSuccessfulBidder(string JobId, string UserId);
     }
 }

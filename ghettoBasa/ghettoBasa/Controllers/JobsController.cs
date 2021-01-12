@@ -174,5 +174,139 @@ namespace ghettoBasa.Controllers
 
             return Ok(GetJob(jobId));
         }
+
+
+        // Job Bids management
+        [HttpGet("/api/[controller]/bids/job/{jobId}")]
+        public IEnumerable<JobBids> GetJobBids(string jobId)
+        {
+            return _jobs.GetJobBids(jobId);
+        }
+
+        [HttpGet("/api/[controller]/bids/{Id}")]
+        public JobBids GetJobBid(int Id)
+        {
+            return _jobs.GetJobBid(Id);
+        }
+
+        [HttpGet("/api/[controller]/bids/user/{userId}")]
+        public IEnumerable<JobBids> GetUserJobBids(string userId)
+        {
+            return _jobs.GetUserJobBids(userId);
+        }
+
+        [HttpGet("/api/[controller]/successful-bids/user/{userId}")]
+        public IEnumerable<Jobs> GetUserSuccessBids(string userId)
+        {
+            return _jobs.GetUserSuccessfulJobBids(userId);
+        }
+
+        [HttpPost("/api/[controller]/bids")]
+        public IActionResult PostBid(JobBids bid)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _jobs.CreateJobBid(bid);
+
+            return CreatedAtAction("GetJobBid", new { id = bid.Id }, bid);
+        }
+
+        [HttpPost("/api/[controller]/bids/success/{job}/{user}")]
+        public IActionResult SuccessBid(string job, string user)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _jobs.UpdateSuccessfulBidder(job, user);
+
+            return Ok(GetJob(job));
+        }
+
+        [HttpPut("/api/[controller]/bids/{id}")]
+        public IActionResult PutBid(int id, JobBids bid)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id != bid.Id)
+            {
+                return BadRequest();
+            }
+
+            var resp = _jobs.UpdateJobBid(bid);
+
+            if (!resp)
+            {
+                return NotFound();
+            }
+
+            return Ok(bid);
+        }
+
+        [HttpPut("/api/[controller]/bids/job-bids/{jobId}")]
+        public IActionResult PutJobBids(string jobId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (jobId == null)
+            {
+                return BadRequest();
+            }
+
+            var resp = _jobs.JobBidStatus(jobId, "disabled");
+
+            if (!resp)
+            {
+                return NotFound();
+            }
+
+            return Ok(GetJob(jobId));
+        }
+
+        [HttpPost("/api/[controller]/bids/un-delete/{Id}")]
+        public IActionResult UnDeleteBid(int Id)
+        {
+            if (Id == 0)
+            {
+                return BadRequest();
+            }
+
+            var resp = _jobs.JobBidDeleteStatus(Id, false);
+
+            if (!resp)
+            {
+                return NotFound();
+            }
+
+            return Ok(GetJobBid(Id));
+        }
+
+        [HttpDelete("/api/[controller]/bids/delete/{Id}")]
+        public IActionResult DeleteBid(int Id)
+        {
+            if (Id == 0)
+            {
+                return BadRequest();
+            }
+
+            var resp = _jobs.JobBidDeleteStatus(Id, true);
+
+            if (!resp)
+            {
+                return NotFound();
+            }
+
+            return Ok(GetJobBid(Id));
+        }
     }
 }
