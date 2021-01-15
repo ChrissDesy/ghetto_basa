@@ -183,8 +183,15 @@ namespace ghettoBasa.Services
         public JobBids GetJobBid(int Id)
         {
             var bid = ctx.JobBids.Where(ab => ab.Id == Id).FirstOrDefault();
+            var obid = bid;
 
-            return bid;
+            if (bid != null)
+            {
+                bid.Viewed = true;
+                ctx.Entry(bid).State = EntityState.Modified;
+            }
+
+            return obid;
         }
 
         public void CreateJobBid(JobBids bid)

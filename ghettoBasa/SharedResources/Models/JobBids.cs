@@ -14,5 +14,6 @@ namespace SharedResources.Models
         public DateTime? BidDate { get; set; }
         public string BidderPhotoUrl { get; set; }
         public bool Deleted { get; set; }
+        public bool Viewed { get; set; }
     }
 }
