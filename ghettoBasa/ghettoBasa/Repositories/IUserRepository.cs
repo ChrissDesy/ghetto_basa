@@ -20,5 +20,19 @@ namespace ghettoBasa.Repositories
         IEnumerable<Users> GetDeletedUsers();
         bool UserDeleteStatus(string UserId, bool action);
         bool UserStatus(string UserId, string action);
+
+        // Manage user reviews
+        IEnumerable<Reviews> GetUserReviews(string UserId);
+        Reviews GetReview(int Id);
+        void CreateReview(Reviews review);
+        bool ReviewDeleteStatus(int Id, bool action);
+
+        // Manage user Ratings
+        IEnumerable<Ratings> GetUserRatings(string UserId);
+        double GetUserRating(string UserId);
+        Ratings GetRating(int Id);
+        void CreateRating(Ratings rating);
+        bool RatingDeleteStatus(int Id, bool action);
+
     }
 }

@@ -197,5 +197,120 @@ namespace ghettoBasa.Services
 
             return users;
         }
+
+
+        // Manage User Reviews
+        public IEnumerable<Reviews> GetUserReviews(string UserId)
+        {
+            var reviews = from r in ctx.Reviews.Where(ab => ab.UserRef == UserId && !ab.Deleted)
+                          select r;
+
+            return reviews;
+        }
+
+        public Reviews GetReview(int Id)
+        {
+            var review = ctx.Reviews.FirstOrDefault(ab => ab.Id == Id);
+
+            return review;
+        }
+
+        public void CreateReview(Reviews review)
+        {
+            try
+            {
+                ctx.Reviews.Add(review);
+                ctx.SaveChanges();
+            }
+            catch
+            {
+                return;
+            }
+        }
+
+        public bool ReviewDeleteStatus(int Id, bool action)
+        {
+            var rvw = ctx.Reviews.Where(ab => ab.Id == Id).FirstOrDefault();
+
+            rvw.Deleted = action;
+
+            try
+            {
+                ctx.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
+        // Manage User Ratings.
+        public IEnumerable<Ratings> GetUserRatings(string UserId)
+        {
+            var ratings = from r in ctx.Ratings.Where(ab => ab.UserRefer == UserId && !ab.Deleted)
+                          select r;
+
+            return ratings;
+        }
+
+        public double GetUserRating(string UserId)
+        {
+            var ratings = ctx.Ratings.Where(ab => ab.UserRefer == UserId && !ab.Deleted);
+
+            var rt = new List<int>();
+
+            foreach(var r in ratings)
+            {
+                rt.Add(r.Rating);
+            }
+
+            if(rt.Count > 0)
+            {
+                return rt.Average();
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public Ratings GetRating(int Id)
+        {
+            var rating = ctx.Ratings.FirstOrDefault(ab => ab.Id == Id);
+
+            return rating;
+        }
+
+        public void CreateRating(Ratings rating)
+        {
+            try
+            {
+                ctx.Ratings.Add(rating);
+                ctx.SaveChanges();
+            }
+            catch
+            {
+                return;
+            }
+        }
+
+        public bool RatingDeleteStatus(int Id, bool action)
+        {
+            var rtn = ctx.Ratings.Where(ab => ab.Id == Id).FirstOrDefault();
+
+            rtn.Deleted = action;
+
+            try
+            {
+                ctx.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

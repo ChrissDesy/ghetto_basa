@@ -9,6 +9,7 @@ namespace SharedResources.Models
         public int Id { get; set; }
         public string UserRefer { get; set; }
         public int Rating { get; set; }
+        public bool Deleted { get; set; }
         public DateTime? DateRated { get; set; }
     }
 }

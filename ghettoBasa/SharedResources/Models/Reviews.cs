@@ -10,5 +10,6 @@ namespace SharedResources.Models
         public string UserRef { get; set; }
         public string Review { get; set; }
         public DateTime? DateReviewed { get; set; }
+        public bool Deleted { get; set; }
     }
 }

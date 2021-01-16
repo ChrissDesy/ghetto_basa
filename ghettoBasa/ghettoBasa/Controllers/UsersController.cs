@@ -169,5 +169,137 @@ namespace ghettoBasa.Controllers
 
             return Ok(GetUser(userId));
         }
+
+        // Manage User Reviews
+        [HttpGet("/api/[controller]/reviews/user/{userid}")]
+        public IEnumerable<Reviews> GetUserReviews(string userid)
+        {
+            return _users.GetUserReviews(userid);
+        }
+
+        [HttpGet("/api/[controller]/reviews/{id}")]
+        public Reviews GetReview(int id)
+        {
+            return _users.GetReview(id);
+        }
+
+        [HttpPost("/api/[controller]/reviews")]
+        public IActionResult PostReview(Reviews review)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _users.CreateReview(review);
+
+            return CreatedAtAction("GetReview", new { id = review.Id }, review);
+        }
+
+        [HttpDelete("/api/[controller]/review/delete/{Id}")]
+        public IActionResult DeleteReview(int Id)
+        {
+            if (Id == 0)
+            {
+                return BadRequest();
+            }
+
+            var resp = _users.ReviewDeleteStatus(Id, true);
+
+            if (!resp)
+            {
+                return NotFound();
+            }
+
+            return Ok(GetReview(Id));
+        }
+
+        [HttpPost("/api/[controller]/review/un-delete/{Id}")]
+        public IActionResult UnDeleteReview(int Id)
+        {
+            if (Id == 0)
+            {
+                return BadRequest();
+            }
+
+            var resp = _users.ReviewDeleteStatus(Id, false);
+
+            if (!resp)
+            {
+                return NotFound();
+            }
+
+            return Ok(GetReview(Id));
+        }
+
+        // Manage User Ratings
+        [HttpGet("/api/[controller]/ratings/user/{userid}")]
+        public IEnumerable<Ratings> GetUserRatings(string userid)
+        {
+            return _users.GetUserRatings(userid);
+        }
+
+        [HttpGet("/api/[controller]/ratings/user-rating/{userid}")]
+        public double GetUserRating(string userid)
+        {
+            return _users.GetUserRating(userid);
+        }
+
+        [HttpGet("/api/[controller]/ratings/{id}")]
+        public Ratings GetRating(int id)
+        {
+            return _users.GetRating(id);
+        }
+
+        [HttpPost("/api/[controller]/ratings")]
+        public IActionResult PostRatings(Ratings rating)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _users.CreateRating(rating);
+
+            return CreatedAtAction("GetRating", new { id = rating.Id }, rating);
+        }
+
+        [HttpDelete("/api/[controller]/ratings/delete/{Id}")]
+        public IActionResult DeleteRatings(int Id)
+        {
+            if (Id == 0)
+            {
+                return BadRequest();
+            }
+
+            var resp = _users.RatingDeleteStatus(Id, true);
+
+            if (!resp)
+            {
+                return NotFound();
+            }
+
+            return Ok(GetRating(Id));
+        }
+
+        [HttpPost("/api/[controller]/ratings/un-delete/{Id}")]
+        public IActionResult UnDeleteRating(int Id)
+        {
+            if (Id == 0)
+            {
+                return BadRequest();
+            }
+
+            var resp = _users.RatingDeleteStatus(Id, false);
+
+            if (!resp)
+            {
+                return NotFound();
+            }
+
+            return Ok(GetRating(Id));
+        }
+
+
     }
 }
