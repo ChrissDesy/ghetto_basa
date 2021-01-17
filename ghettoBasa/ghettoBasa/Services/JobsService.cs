@@ -1,5 +1,6 @@
 ﻿using ghettoBasa.Repositories;
 using Microsoft.EntityFrameworkCore;
+using SharedResources.DTOs;
 using SharedResources.Models;
 using System;
 using System.Collections.Generic;
@@ -40,6 +41,48 @@ namespace ghettoBasa.Services
                        select j;
 
             return jobs;
+        }
+
+        public MyResponse GetPagiatedJobs(int page, int size)
+        {
+            var jobs = from j in ctx.Jobs.Where(ab => !ab.Deleted)
+                       .OrderBy(cd => cd.DatePosted)
+                       .Skip(page * size)
+                       .Take(size)
+                       select j;
+
+            var count = ctx.Jobs.Where(ab => !ab.Deleted).Count();
+
+            var response = new MyResponse()
+            {
+                totalElements = count,
+                content = jobs,
+                totalPages = (int)(count / size),
+                currentPage = page + 1
+            };
+
+            return response;
+        }
+
+        public MyResponse GetPaginatedUserJobs(string UserId, int page, int size)
+        {
+            var jobs = from j in ctx.Jobs.Where(ab => !ab.Deleted && ab.PosterId == UserId)
+                       .OrderBy(cd => cd.DatePosted)
+                       .Skip(page * size)
+                       .Take(size)
+                       select j;
+
+            var count = ctx.Jobs.Where(ab => !ab.Deleted && ab.PosterId == UserId).Count();
+
+            var response = new MyResponse()
+            {
+                totalElements = count,
+                content = jobs,
+                totalPages = (int)(count / size),
+                currentPage = page + 1
+            };
+
+            return response;
         }
 
         public IEnumerable<Jobs> GetFilteredJobs(string[] Filters)

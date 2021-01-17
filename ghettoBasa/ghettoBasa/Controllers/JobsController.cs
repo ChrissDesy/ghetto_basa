@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ghettoBasa.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SharedResources.DTOs;
 using SharedResources.Models;
 
 namespace ghettoBasa.Controllers
@@ -27,6 +28,12 @@ namespace ghettoBasa.Controllers
             return _jobs.GetJobs();
         }
 
+        [HttpGet("/api/[controller]/{page}/{size}")]
+        public MyResponse GetPaginated(int page, int size)
+        {
+            return _jobs.GetPagiatedJobs(page, size);
+        }
+
         [HttpGet("/api/[controller]/deleted")]
         public IEnumerable<Jobs> GetDeletedJobs()
         {
@@ -37,6 +44,12 @@ namespace ghettoBasa.Controllers
         public IEnumerable<Jobs> GetUserJobs(string userId)
         {
             return _jobs.GetUserJobs(userId);
+        }
+
+        [HttpGet("/api/[controller]/user/{userId}/{page}/{size}")]
+        public MyResponse GetPaginatedUserJobs(string userId, int page, int size)
+        {
+            return _jobs.GetPaginatedUserJobs(userId, page, size);
         }
 
         // GET: api/Jobs/5

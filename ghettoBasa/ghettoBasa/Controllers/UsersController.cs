@@ -28,7 +28,7 @@ namespace ghettoBasa.Controllers
         }
 
         [HttpGet("/api/[controller]/{page}/{size}")]
-        public Response GetPaginatedUsers(int page, int size)
+        public MyResponse GetPaginatedUsers(int page, int size)
         {
             return _users.GetPaginatedUsers(page, size);
         }
@@ -46,13 +46,13 @@ namespace ghettoBasa.Controllers
         }
 
         [HttpGet("/api/[controller]/admin/{page}/{size}")]
-        public Response GetPaginatedAdmins(int page, int size)
+        public MyResponse GetPaginatedAdmins(int page, int size)
         {
             return _users.GetPaginatedAdminUsers(page, size);
         }
 
         [HttpGet("/api/[controller]/clients/{page}/{size}")]
-        public Response GetPaginatedClients(int page, int size)
+        public MyResponse GetPaginatedClients(int page, int size)
         {
             return _users.GetPaginatedClientUsers(page, size);
         }

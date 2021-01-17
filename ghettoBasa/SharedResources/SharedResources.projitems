@@ -9,7 +9,7 @@
     <Import_RootNamespace>SharedResources</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)DTOs\Response.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DTOs\MyResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\AuditTrails.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\AuthenticatedUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Files.cs" />

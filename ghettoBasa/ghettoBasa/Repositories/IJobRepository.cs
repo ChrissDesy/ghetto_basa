@@ -1,4 +1,5 @@
-﻿using SharedResources.Models;
+﻿using SharedResources.DTOs;
+using SharedResources.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace ghettoBasa.Repositories
         // Jobs Management
         IEnumerable<Jobs> GetJobs();
         IEnumerable<Jobs> GetUserJobs(string UserId);
+        MyResponse GetPagiatedJobs(int page, int size);
+        MyResponse GetPaginatedUserJobs(string UserId, int page, int size);
         Jobs GetJob(string JobId);
         void CreateJob(Jobs job);
         bool UpdateJob(Jobs job);

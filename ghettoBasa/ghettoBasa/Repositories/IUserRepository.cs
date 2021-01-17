@@ -12,9 +12,9 @@ namespace ghettoBasa.Repositories
         IEnumerable<Users> GetUsers();
         IEnumerable<Users> GetAdminUsers();
         IEnumerable<Users> GetClientUsers();
-        Response GetPaginatedUsers(int page, int size);
-        Response GetPaginatedAdminUsers(int page, int size);
-        Response GetPaginatedClientUsers(int page, int size);
+        MyResponse GetPaginatedUsers(int page, int size);
+        MyResponse GetPaginatedAdminUsers(int page, int size);
+        MyResponse GetPaginatedClientUsers(int page, int size);
         Users GetUser(string UserId);
         Users GetUserByUsername(string Username);
         Users GetUserByIdentity(string Natid);

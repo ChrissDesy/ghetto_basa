@@ -199,6 +199,69 @@ namespace ghettoBasa.Services
             return users;
         }
 
+        public MyResponse GetPaginatedUsers(int page, int size)
+        {
+            var users = from u in ctx.Users.Where(ab => !ab.Deleted)
+                         .OrderBy(cd => cd.Id)
+                         .Skip(page * size)
+                         .Take(size)
+                        select u;
+
+            var count = ctx.Users.Where(bd => !bd.Deleted).Count();
+
+            var response = new MyResponse()
+            {
+                totalElements = count,
+                content = users,
+                totalPages = (int)(count / size),
+                currentPage = page + 1
+            };
+
+            return response;
+        }
+
+        public MyResponse GetPaginatedAdminUsers(int page, int size)
+        {
+            var users = from u in ctx.Users.Where(ab => !ab.Deleted && ab.UserType == "Admin")
+                        .OrderBy(cd => cd.Id)
+                         .Skip(page * size)
+                         .Take(size)
+                        select u;
+
+            var count = ctx.Users.Where(bd => !bd.Deleted && bd.UserType == "Admin").Count();
+
+            var response = new MyResponse()
+            {
+                totalElements = count,
+                content = users,
+                totalPages = (int)(count / size),
+                currentPage = page + 1
+            };
+
+            return response;
+        }
+
+        public MyResponse GetPaginatedClientUsers(int page, int size)
+        {
+            var users = from u in ctx.Users.Where(ab => !ab.Deleted && ab.UserType != "Admin")
+                        .OrderBy(cd => cd.Id)
+                         .Skip(page * size)
+                         .Take(size)
+                        select u;
+
+            var count = ctx.Users.Where(bd => !bd.Deleted && bd.UserType != "Admin").Count();
+
+            var response = new MyResponse()
+            {
+                totalElements = count,
+                content = users,
+                totalPages = (int)(count / size),
+                currentPage = page + 1
+            };
+
+            return response;
+        }
+
 
         // Manage User Reviews
         public IEnumerable<Reviews> GetUserReviews(string UserId)
@@ -312,69 +375,6 @@ namespace ghettoBasa.Services
             {
                 return false;
             }
-        }
-
-        public Response GetPaginatedUsers(int page, int size)
-        {
-            var users = from u in ctx.Users.Where(ab => !ab.Deleted)
-                         .OrderBy(cd => cd.Id)
-                         .Skip(page * size)
-                         .Take(size)
-                        select u;
-
-            var count = ctx.Users.Where(bd => !bd.Deleted).Count();
-
-            var response = new Response()
-            {
-                totalElements = count,
-                content = users,
-                totalPages = (int)(count / size),
-                currentPage = page + 1
-            };
-
-            return response;
-        }
-
-        public Response GetPaginatedAdminUsers(int page, int size)
-        {
-            var users = from u in ctx.Users.Where(ab => !ab.Deleted && ab.UserType == "Admin")
-                        .OrderBy(cd => cd.Id)
-                         .Skip(page * size)
-                         .Take(size)
-                        select u;
-
-            var count = ctx.Users.Where(bd => !bd.Deleted && bd.UserType == "Admin").Count();
-
-            var response = new Response()
-            {
-                totalElements = count,
-                content = users,
-                totalPages = (int)(count / size),
-                currentPage = page + 1
-            };
-
-            return response;
-        }
-
-        public Response GetPaginatedClientUsers(int page, int size)
-        {
-            var users = from u in ctx.Users.Where(ab => !ab.Deleted && ab.UserType != "Admin")
-                        .OrderBy(cd => cd.Id)
-                         .Skip(page * size)
-                         .Take(size)
-                        select u;
-
-            var count = ctx.Users.Where(bd => !bd.Deleted && bd.UserType != "Admin").Count();
-
-            var response = new Response()
-            {
-                totalElements = count,
-                content = users,
-                totalPages = (int)(count / size),
-                currentPage = page + 1
-            };
-
-            return response;
         }
     }
 }

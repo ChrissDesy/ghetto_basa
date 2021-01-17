@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SharedResources.DTOs
 {
-    public class Response
+    public class MyResponse
     {
         public int totalElements { get; set; }
         public IEnumerable<object> content { get; set; }
