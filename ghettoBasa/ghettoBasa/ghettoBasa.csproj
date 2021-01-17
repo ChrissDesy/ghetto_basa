@@ -32,6 +32,10 @@
     <PackageReference Include="NSwag.AspNetCore" Version="13.9.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Resources\Uploads\" />
+  </ItemGroup>
+
   <Import Project="..\SharedResources\SharedResources.projitems" Label="Shared" />
 
 </Project>

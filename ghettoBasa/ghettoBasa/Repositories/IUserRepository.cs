@@ -1,4 +1,5 @@
-﻿using SharedResources.Models;
+﻿using SharedResources.DTOs;
+using SharedResources.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,9 @@ namespace ghettoBasa.Repositories
         IEnumerable<Users> GetUsers();
         IEnumerable<Users> GetAdminUsers();
         IEnumerable<Users> GetClientUsers();
+        Response GetPaginatedUsers(int page, int size);
+        Response GetPaginatedAdminUsers(int page, int size);
+        Response GetPaginatedClientUsers(int page, int size);
         Users GetUser(string UserId);
         Users GetUserByUsername(string Username);
         Users GetUserByIdentity(string Natid);

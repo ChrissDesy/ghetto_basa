@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ghettoBasa.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SharedResources.DTOs;
 using SharedResources.Models;
 
 namespace ghettoBasa.Controllers
@@ -26,6 +27,12 @@ namespace ghettoBasa.Controllers
             return _users.GetUsers();
         }
 
+        [HttpGet("/api/[controller]/{page}/{size}")]
+        public Response GetPaginatedUsers(int page, int size)
+        {
+            return _users.GetPaginatedUsers(page, size);
+        }
+
         [HttpGet("/api/[controller]/admin")]
         public IEnumerable<Users> GetAdmins()
         {
@@ -36,6 +43,18 @@ namespace ghettoBasa.Controllers
         public IEnumerable<Users> GetClients()
         {
             return _users.GetClientUsers();
+        }
+
+        [HttpGet("/api/[controller]/admin/{page}/{size}")]
+        public Response GetPaginatedAdmins(int page, int size)
+        {
+            return _users.GetPaginatedAdminUsers(page, size);
+        }
+
+        [HttpGet("/api/[controller]/clients/{page}/{size}")]
+        public Response GetPaginatedClients(int page, int size)
+        {
+            return _users.GetPaginatedClientUsers(page, size);
         }
 
         [HttpGet("{id}")]
