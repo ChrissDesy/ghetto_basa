@@ -1,2 +1,5 @@
-ghettoBasa/.vs/
-/ghettoBasa/ghettoBasa/Resources/Uploads
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/ghettoBasa/.vs/ghettoBasa
