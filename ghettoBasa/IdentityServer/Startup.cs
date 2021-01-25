@@ -7,7 +7,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 using IdentityServer4.Models;
+using SharedResources.Models;
+using IdentityServer.Respositories;
+using IdentityServer.Services;
 
 namespace IdentityServer
 {
@@ -58,6 +62,9 @@ namespace IdentityServer
             builder.AddDeveloperSigningCredential();
 
             services.AddMvc();
+
+            // services.AddDbContext<ghettoBasaContext>(o => o.UseMySQL(cn));
+            services.AddScoped<IAuthRepository, AuthService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

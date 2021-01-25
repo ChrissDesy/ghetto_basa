@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityServer.Respositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,13 @@ namespace IdentityServer.Controllers
     [ApiController]
     public class GBAuthController : ControllerBase
     {
+        private IAuthRepository _auth;
+
+        public GBAuthController(IAuthRepository auth)
+        {
+            _auth = auth;
+        }
+
         // GET: api/GBAuth
         [HttpGet]
         public IEnumerable<string> Get()

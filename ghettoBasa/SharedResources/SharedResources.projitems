@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DTOs\MyResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\AuditTrails.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\AuthenticatedUser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ChangePassword.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Files.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ghettoBasaContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\JobBids.cs" />
