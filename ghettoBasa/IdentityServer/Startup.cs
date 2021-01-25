@@ -70,7 +70,7 @@ namespace IdentityServer
             
             app.UseIdentityServer();
 
-            
+            app.UseMvc();
 
             app.Run(async (context) =>
             {
