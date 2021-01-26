@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using IdentityServer.Respositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SharedResources.Models;
 
 namespace IdentityServer.Controllers
 {
@@ -39,10 +40,59 @@ namespace IdentityServer.Controllers
         {
         }
 
-        // PUT: api/GBAuth/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPost("/api/[controller]/login")]
+        public IActionResult UserLogin(UserCredentials credentials)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var resp = _auth.AuthenticateUser(credentials);
+
+            if(resp == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(resp);
+        }
+
+        [HttpPost("/api/[controller]/reset")]
+        public IActionResult UserReset(ResetDetails reset)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var resp = _auth.ResetRequest(reset.userId, reset.Front);
+
+            if (!resp)
+            {
+                return NotFound();
+            }
+
+            return Ok(resp);
+        }
+
+        // PUT: api/GBAuth/5
+        [HttpPut("/api/[controller]/changepassword")]
+        public IActionResult ChangePassword(ChangePassword change)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var resp = _auth.ChangePassword(change);
+
+            if (!resp)
+            {
+                return NotFound();
+            }
+
+            return Ok(resp);
         }
 
         // DELETE: api/ApiWithActions/5

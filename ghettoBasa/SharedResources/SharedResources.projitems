@@ -18,6 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\JobBids.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Jobs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Ratings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ResetDetails.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Reviews.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SystemUsers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\UserCredentials.cs" />

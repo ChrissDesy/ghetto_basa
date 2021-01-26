@@ -10,6 +10,6 @@ namespace IdentityServer.Respositories
     {
         AuthenticatedUser AuthenticateUser(UserCredentials cred);
         bool ChangePassword(ChangePassword change);
-        bool ResetRequest(string email, string front);
+        bool ResetRequest(string user, string front);
     }
 }
