@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using MySql.Data.EntityFrameworkCore.Extensions;
 using IdentityServer4.Models;
 using SharedResources.Models;
 using IdentityServer.Respositories;
@@ -63,8 +64,10 @@ namespace IdentityServer
 
             services.AddMvc();
 
-            // services.AddDbContext<ghettoBasaContext>(o => o.UseMySQL(cn));
+            services.AddDbContext<ghettoBasaContext>(o => o.UseMySQL(cn));
             services.AddScoped<IAuthRepository, AuthService>();
+
+            services.AddSwaggerDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,6 +79,9 @@ namespace IdentityServer
             }
             
             app.UseIdentityServer();
+
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
 
             app.UseMvc();
 

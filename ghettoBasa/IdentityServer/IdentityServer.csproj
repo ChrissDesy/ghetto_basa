@@ -26,6 +26,7 @@
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="3.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
     <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.22" />
+    <PackageReference Include="NSwag.AspNetCore" Version="13.10.1" />
   </ItemGroup>
 
   <Import Project="..\SharedResources\SharedResources.projitems" Label="Shared" />
