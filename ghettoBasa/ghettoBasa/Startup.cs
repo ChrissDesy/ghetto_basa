@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using MySql.Data.EntityFrameworkCore.Extensions;
 using ghettoBasa.Repositories;
 using ghettoBasa.Services;
+using IdentityServer4.AccessTokenValidation;
 
 namespace ghettoBasa
 {
@@ -37,6 +38,17 @@ namespace ghettoBasa
             services.AddScoped<IUserRepository, UsersService>();
             services.AddScoped<IJobRepository, JobsService>();
 
+            // add authentication
+            services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+                .AddIdentityServerAuthentication(opt =>
+                {
+                    opt.Authority = "https://localhost:44303/"; //the identity server
+                    opt.RequireHttpsMetadata = false;
+                    opt.ApiName = "ghettoBasa-api";
+                    opt.ApiSecret = "ghettoBAsa@2020";
+                });
+            services.AddAuthorization();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // adding swagger documentation
@@ -56,6 +68,7 @@ namespace ghettoBasa
                 app.UseHsts();
             }
 
+            app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseMvc();
 
