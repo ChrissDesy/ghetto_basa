@@ -13,7 +13,9 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedResources", "SharedRe
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		SharedResources\SharedResources.projitems*{296bf970-1b19-43b7-9633-119c749e9ba0}*SharedItemsImports = 5
 		SharedResources\SharedResources.projitems*{762268c2-74d3-40b9-8dc9-643794cc1a36}*SharedItemsImports = 13
+		SharedResources\SharedResources.projitems*{b6b3c061-1c23-424f-ae3f-52397d7044a1}*SharedItemsImports = 5
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
