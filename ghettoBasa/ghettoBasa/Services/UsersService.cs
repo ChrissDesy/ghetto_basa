@@ -4,6 +4,7 @@ using SharedResources.DTOs;
 using SharedResources.Models;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,7 +20,7 @@ namespace ghettoBasa.Services
             ctx = context; 
         }
 
-        public void CreateUser(Users user)
+        public void CreateUser(Users user, string token)
         {
             user.UserId = GenerateUserId();
 
@@ -39,6 +40,10 @@ namespace ghettoBasa.Services
                     UserRefe = user.UserId,
                     ResetRequest = "-"
                 };
+                var trail = new AuditTrails()
+                {
+                    
+                };
 
                 try
                 {
@@ -57,7 +62,7 @@ namespace ghettoBasa.Services
             }
         }
 
-        public IEnumerable<Users> GetDeletedUsers()
+        public IEnumerable<Users> GetDeletedUsers(string token)
         {
             var users = from u in ctx.Users.Where(ab => ab.Deleted)
                         select u;
@@ -65,21 +70,21 @@ namespace ghettoBasa.Services
             return users;
         }
 
-        public Users GetUser(string UserId)
+        public Users GetUser(string UserId, string token)
         {
             var user = ctx.Users.Where(ab => ab.UserId == UserId).FirstOrDefault();
 
             return user;
         }
 
-        public Users GetUserByUsername(string Username)
+        public Users GetUserByUsername(string Username, string token)
         {
             var user = ctx.Users.Where(ab => ab.Username == Username).FirstOrDefault();
 
             return user;
         }
 
-        public IEnumerable<Users> GetUsers()
+        public IEnumerable<Users> GetUsers(string token)
         {
             var users = from u in ctx.Users.Where(ab => !ab.Deleted)
                         select u;
@@ -92,7 +97,7 @@ namespace ghettoBasa.Services
             throw new NotImplementedException();
         }
 
-        public bool UpdateUser(Users user)
+        public bool UpdateUser(Users user, string token)
         {
             try
             {
@@ -138,7 +143,7 @@ namespace ghettoBasa.Services
             return new string(Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
-        public bool UserDeleteStatus(string UserId, bool action)
+        public bool UserDeleteStatus(string UserId, bool action, string token)
         {
             var user = ctx.Users.Where(ab => ab.UserId == UserId).FirstOrDefault();
             var syUser = ctx.SystemUsers.Where(cd => cd.UserRefe == UserId).FirstOrDefault();
@@ -157,14 +162,14 @@ namespace ghettoBasa.Services
             }
         }
 
-        public Users GetUserByIdentity(string Natid)
+        public Users GetUserByIdentity(string Natid, string token)
         {
             var user = ctx.Users.Where(ab => ab.NationalId == Natid).FirstOrDefault();
 
             return user;
         }
 
-        public bool UserStatus(string UserId, string action)
+        public bool UserStatus(string UserId, string action, string token)
         {
             var user = ctx.Users.Where(ab => ab.UserId == UserId).FirstOrDefault();
             var syUser = ctx.SystemUsers.Where(cd => cd.UserRefe == UserId).FirstOrDefault();
@@ -183,7 +188,7 @@ namespace ghettoBasa.Services
             }
         }
 
-        public IEnumerable<Users> GetAdminUsers()
+        public IEnumerable<Users> GetAdminUsers(string token)
         {
             var users = from u in ctx.Users.Where(ab => !ab.Deleted && ab.UserType == "Admin")
                         select u;
@@ -191,7 +196,7 @@ namespace ghettoBasa.Services
             return users;
         }
 
-        public IEnumerable<Users> GetClientUsers()
+        public IEnumerable<Users> GetClientUsers(string token)
         {
             var users = from u in ctx.Users.Where(ab => !ab.Deleted && ab.UserType != "Admin")
                         select u;
@@ -199,7 +204,7 @@ namespace ghettoBasa.Services
             return users;
         }
 
-        public MyResponse GetPaginatedUsers(int page, int size)
+        public MyResponse GetPaginatedUsers(int page, int size, string token)
         {
             var users = from u in ctx.Users.Where(ab => !ab.Deleted)
                          .OrderBy(cd => cd.Id)
@@ -220,7 +225,7 @@ namespace ghettoBasa.Services
             return response;
         }
 
-        public MyResponse GetPaginatedAdminUsers(int page, int size)
+        public MyResponse GetPaginatedAdminUsers(int page, int size, string token)
         {
             var users = from u in ctx.Users.Where(ab => !ab.Deleted && ab.UserType == "Admin")
                         .OrderBy(cd => cd.Id)
@@ -241,7 +246,7 @@ namespace ghettoBasa.Services
             return response;
         }
 
-        public MyResponse GetPaginatedClientUsers(int page, int size)
+        public MyResponse GetPaginatedClientUsers(int page, int size, string token)
         {
             var users = from u in ctx.Users.Where(ab => !ab.Deleted && ab.UserType != "Admin")
                         .OrderBy(cd => cd.Id)
@@ -264,7 +269,7 @@ namespace ghettoBasa.Services
 
 
         // Manage User Reviews
-        public IEnumerable<Reviews> GetUserReviews(string UserId)
+        public IEnumerable<Reviews> GetUserReviews(string UserId, string token)
         {
             var reviews = from r in ctx.Reviews.Where(ab => ab.UserRef == UserId && !ab.Deleted)
                           select r;
@@ -272,14 +277,14 @@ namespace ghettoBasa.Services
             return reviews;
         }
 
-        public Reviews GetReview(int Id)
+        public Reviews GetReview(int Id, string token)
         {
             var review = ctx.Reviews.FirstOrDefault(ab => ab.Id == Id);
 
             return review;
         }
 
-        public void CreateReview(Reviews review)
+        public void CreateReview(Reviews review, string token)
         {
             try
             {
@@ -292,7 +297,7 @@ namespace ghettoBasa.Services
             }
         }
 
-        public bool ReviewDeleteStatus(int Id, bool action)
+        public bool ReviewDeleteStatus(int Id, bool action, string token)
         {
             var rvw = ctx.Reviews.Where(ab => ab.Id == Id).FirstOrDefault();
 
@@ -311,7 +316,7 @@ namespace ghettoBasa.Services
 
 
         // Manage User Ratings.
-        public IEnumerable<Ratings> GetUserRatings(string UserId)
+        public IEnumerable<Ratings> GetUserRatings(string UserId, string token)
         {
             var ratings = from r in ctx.Ratings.Where(ab => ab.UserRefer == UserId && !ab.Deleted)
                           select r;
@@ -319,7 +324,7 @@ namespace ghettoBasa.Services
             return ratings;
         }
 
-        public double GetUserRating(string UserId)
+        public double GetUserRating(string UserId, string token)
         {
             var ratings = ctx.Ratings.Where(ab => ab.UserRefer == UserId && !ab.Deleted);
 
@@ -340,14 +345,14 @@ namespace ghettoBasa.Services
             }
         }
 
-        public Ratings GetRating(int Id)
+        public Ratings GetRating(int Id, string token)
         {
             var rating = ctx.Ratings.FirstOrDefault(ab => ab.Id == Id);
 
             return rating;
         }
 
-        public void CreateRating(Ratings rating)
+        public void CreateRating(Ratings rating, string token)
         {
             try
             {
@@ -360,7 +365,7 @@ namespace ghettoBasa.Services
             }
         }
 
-        public bool RatingDeleteStatus(int Id, bool action)
+        public bool RatingDeleteStatus(int Id, bool action, string token)
         {
             var rtn = ctx.Ratings.Where(ab => ab.Id == Id).FirstOrDefault();
 
@@ -375,6 +380,19 @@ namespace ghettoBasa.Services
             {
                 return false;
             }
+        }
+
+        // get logged in user from token
+        public string getUsername(string theToken)
+        {
+            var tok = "";
+
+            tok = theToken.Substring(7);
+
+            var token = new JwtSecurityToken(tok);
+            var claims = token.Claims.First(cl => cl.Type == "name");
+
+            return claims.Value;
         }
     }
 }

@@ -4,6 +4,7 @@ using SharedResources.DTOs;
 using SharedResources.Models;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,7 +21,7 @@ namespace ghettoBasa.Services
         }
 
         // Job Management
-        public void CreateJob(Jobs job)
+        public void CreateJob(Jobs job, string Token)
         {
             job.JobId = GenerateJobId();
 
@@ -35,7 +36,7 @@ namespace ghettoBasa.Services
             }
         }
 
-        public IEnumerable<Jobs> GetDeletedJobs()
+        public IEnumerable<Jobs> GetDeletedJobs(string Token)
         {
             var jobs = from j in ctx.Jobs.Where(ab => ab.Deleted)
                        select j;
@@ -43,7 +44,7 @@ namespace ghettoBasa.Services
             return jobs;
         }
 
-        public MyResponse GetPagiatedJobs(int page, int size)
+        public MyResponse GetPagiatedJobs(int page, int size, string Token)
         {
             var jobs = from j in ctx.Jobs.Where(ab => !ab.Deleted)
                        .OrderBy(cd => cd.DatePosted)
@@ -64,7 +65,7 @@ namespace ghettoBasa.Services
             return response;
         }
 
-        public MyResponse GetPaginatedUserJobs(string UserId, int page, int size)
+        public MyResponse GetPaginatedUserJobs(string UserId, int page, int size, string Token)
         {
             var jobs = from j in ctx.Jobs.Where(ab => !ab.Deleted && ab.PosterId == UserId)
                        .OrderBy(cd => cd.DatePosted)
@@ -90,14 +91,14 @@ namespace ghettoBasa.Services
             throw new NotImplementedException();
         }
 
-        public Jobs GetJob(string JobId)
+        public Jobs GetJob(string JobId, string Token)
         {
             var job = ctx.Jobs.Where(ab => ab.JobId == JobId).FirstOrDefault();
 
             return job;
         }
 
-        public IEnumerable<Jobs> GetJobs()
+        public IEnumerable<Jobs> GetJobs(string Token)
         {
             var jobs = from j in ctx.Jobs.Where(ab => !ab.Deleted)
                        select j;
@@ -105,7 +106,7 @@ namespace ghettoBasa.Services
             return jobs;
         }
 
-        public IEnumerable<Jobs> GetUserJobs(string UserId)
+        public IEnumerable<Jobs> GetUserJobs(string UserId, string Token)
         {
             var jobs = from j in ctx.Jobs.Where(ab => !ab.Deleted && ab.PosterId == UserId)
                        select j;
@@ -113,7 +114,7 @@ namespace ghettoBasa.Services
             return jobs;
         }
 
-        public bool JobDeleteStatus(string JobId, bool action)
+        public bool JobDeleteStatus(string JobId, bool action, string Token)
         {
             var job = ctx.Jobs.Where(ab => ab.JobId == JobId).FirstOrDefault();
 
@@ -130,7 +131,7 @@ namespace ghettoBasa.Services
             }
         }
 
-        public bool JobStatus(string JobId, string action)
+        public bool JobStatus(string JobId, string action, string Token)
         {
             var job = ctx.Jobs.Where(ab => ab.JobId == JobId).FirstOrDefault();
 
@@ -147,7 +148,7 @@ namespace ghettoBasa.Services
             }
         }
 
-        public bool ReOpenJob(string JobId)
+        public bool ReOpenJob(string JobId, string Token)
         {
             var job = ctx.Jobs.Where(ab => ab.JobId == JobId).FirstOrDefault();
 
@@ -169,7 +170,7 @@ namespace ghettoBasa.Services
             throw new NotImplementedException();
         }
 
-        public bool UpdateJob(Jobs job)
+        public bool UpdateJob(Jobs job, string Token)
         {
             try
             {
@@ -207,7 +208,7 @@ namespace ghettoBasa.Services
 
 
         // Job Bids Management
-        public IEnumerable<JobBids> GetJobBids(string JobId)
+        public IEnumerable<JobBids> GetJobBids(string JobId, string Token)
         {
             var bids = from j in ctx.JobBids.Where(ab => ab.JobRef == JobId && !ab.Deleted && ab.Status == "active")
                        select j;
@@ -215,7 +216,7 @@ namespace ghettoBasa.Services
             return bids;
         }
 
-        public IEnumerable<JobBids> GetUserJobBids(string UserId)
+        public IEnumerable<JobBids> GetUserJobBids(string UserId, string Token)
         {
             var bids = from j in ctx.JobBids.Where(ab => ab.BidderId == UserId && !ab.Deleted)
                        select j;
@@ -223,7 +224,7 @@ namespace ghettoBasa.Services
             return bids;
         }
 
-        public JobBids GetJobBid(int Id)
+        public JobBids GetJobBid(int Id, string Token)
         {
             var bid = ctx.JobBids.Where(ab => ab.Id == Id).FirstOrDefault();
             var obid = bid;
@@ -237,7 +238,7 @@ namespace ghettoBasa.Services
             return obid;
         }
 
-        public void CreateJobBid(JobBids bid)
+        public void CreateJobBid(JobBids bid, string Token)
         {
             try
             {
@@ -250,7 +251,7 @@ namespace ghettoBasa.Services
             }
         }
 
-        public bool JobBidDeleteStatus(int BidId, bool action)
+        public bool JobBidDeleteStatus(int BidId, bool action, string Token)
         {
             var job = ctx.JobBids.Where(ab => ab.Id == BidId).FirstOrDefault();
 
@@ -267,7 +268,7 @@ namespace ghettoBasa.Services
             }
         }
 
-        public bool JobBidStatus(string JobId, string action)
+        public bool JobBidStatus(string JobId, string action, string Token)
         {
             var bids = ctx.JobBids.Where(ab => ab.Status == "active" && ab.JobRef == JobId && !ab.Deleted);
 
@@ -289,7 +290,7 @@ namespace ghettoBasa.Services
             }
         }
 
-        public bool UpdateJobBid(JobBids jobBid)
+        public bool UpdateJobBid(JobBids jobBid, string Token)
         {
             try
             {
@@ -304,7 +305,7 @@ namespace ghettoBasa.Services
             }
         }
 
-        public IEnumerable<Jobs> GetUserSuccessfulJobBids(string UserId)
+        public IEnumerable<Jobs> GetUserSuccessfulJobBids(string UserId, string Token)
         {
             var jobs = from j in ctx.Jobs.Where(ab => !ab.Deleted && ab.SuccessfulBidder == UserId)
                        select j;
@@ -312,7 +313,7 @@ namespace ghettoBasa.Services
             return jobs;
         }
 
-        public bool UpdateSuccessfulBidder(string JobId, string UserId)
+        public bool UpdateSuccessfulBidder(string JobId, string UserId, string Token)
         {
             var job = ctx.Jobs.FirstOrDefault(ab => ab.JobId == JobId);
 
@@ -330,5 +331,19 @@ namespace ghettoBasa.Services
                 return false;
             }
         }
+
+        // get logged in user from token
+        public string getUsername(string theToken)
+        {
+            var tok = "";
+
+            tok = theToken.Substring(7);
+
+            var token = new JwtSecurityToken(tok);
+            var claims = token.Claims.First(cl => cl.Type == "name");
+
+            return claims.Value;
+        }
+
     }
 }

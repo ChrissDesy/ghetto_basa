@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using ghettoBasa.Repositories;
@@ -26,61 +27,81 @@ namespace ghettoBasa.Controllers
         [HttpGet]
         public IEnumerable<Users> GetUsers()
         {
-            return _users.GetUsers();
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            return _users.GetUsers(tok);
         }
 
         [HttpGet("/api/[controller]/{page}/{size}")]
         public MyResponse GetPaginatedUsers(int page, int size)
         {
-            return _users.GetPaginatedUsers(page, size);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            return _users.GetPaginatedUsers(page, size, tok);
         }
 
         [HttpGet("/api/[controller]/admin")]
         public IEnumerable<Users> GetAdmins()
         {
-            return _users.GetAdminUsers();
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            return _users.GetAdminUsers(tok);
         }
 
         [HttpGet("/api/[controller]/clients")]
         public IEnumerable<Users> GetClients()
         {
-            return _users.GetClientUsers();
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            return _users.GetClientUsers(tok);
         }
 
         [HttpGet("/api/[controller]/admin/{page}/{size}")]
         public MyResponse GetPaginatedAdmins(int page, int size)
         {
-            return _users.GetPaginatedAdminUsers(page, size);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            return _users.GetPaginatedAdminUsers(page, size, tok);
         }
 
         [HttpGet("/api/[controller]/clients/{page}/{size}")]
         public MyResponse GetPaginatedClients(int page, int size)
         {
-            return _users.GetPaginatedClientUsers(page, size);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            return _users.GetPaginatedClientUsers(page, size, tok);
         }
 
         [HttpGet("{id}")]
         public Users GetUser(string id)
         {
-            return _users.GetUser(id);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            return _users.GetUser(id, tok);
         }
 
         [HttpGet("/api/[controller]/username/{username}")]
         public Users GetUserByUsername(string username)
         {
-            return _users.GetUserByUsername(username);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            return _users.GetUserByUsername(username, tok);
         }
 
         [HttpGet("/api/[controller]/nationalid/{natid}")]
         public Users GetUserByIdentity(string natid)
         {
-            return _users.GetUserByIdentity(natid);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            return _users.GetUserByIdentity(natid, tok);
         }
 
         [HttpGet("/api/[controller]/deleted")]
         public IEnumerable<Users> GetDeletedUsers()
         {
-            return _users.GetDeletedUsers();
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            return _users.GetDeletedUsers(tok);
         }
 
         [HttpPost]
@@ -91,7 +112,9 @@ namespace ghettoBasa.Controllers
                 return BadRequest(ModelState);
             }
 
-            _users.CreateUser(user);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            _users.CreateUser(user, tok);
 
             return CreatedAtAction("GetUser", new { id = user.UserId }, user);
         }
@@ -104,7 +127,9 @@ namespace ghettoBasa.Controllers
                 return BadRequest();
             }
 
-            var resp = _users.UserDeleteStatus(userId, false);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            var resp = _users.UserDeleteStatus(userId, false, tok);
 
             if (!resp)
             {
@@ -122,7 +147,9 @@ namespace ghettoBasa.Controllers
                 return BadRequest();
             }
 
-            var resp = _users.UserStatus(userId, "active");
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            var resp = _users.UserStatus(userId, "active", tok);
 
             if (!resp)
             {
@@ -140,7 +167,9 @@ namespace ghettoBasa.Controllers
                 return BadRequest();
             }
 
-            var resp = _users.UserStatus(userId, "disabled");
+            var tok = HttpContext.Request.Headers["Authorization"];
+                
+            var resp = _users.UserStatus(userId, "disabled", tok);
 
             if (!resp)
             {
@@ -163,7 +192,9 @@ namespace ghettoBasa.Controllers
                 return BadRequest();
             }
 
-            var resp = _users.UpdateUser(user);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            var resp = _users.UpdateUser(user, tok);
 
             if (!resp)
             {
@@ -181,7 +212,9 @@ namespace ghettoBasa.Controllers
                 return BadRequest();
             }
 
-            var resp = _users.UserDeleteStatus(userId, true);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            var resp = _users.UserDeleteStatus(userId, true, tok);
 
             if (!resp)
             {
@@ -195,13 +228,17 @@ namespace ghettoBasa.Controllers
         [HttpGet("/api/[controller]/reviews/user/{userid}")]
         public IEnumerable<Reviews> GetUserReviews(string userid)
         {
-            return _users.GetUserReviews(userid);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            return _users.GetUserReviews(userid, tok);
         }
 
         [HttpGet("/api/[controller]/reviews/{id}")]
         public Reviews GetReview(int id)
         {
-            return _users.GetReview(id);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            return _users.GetReview(id, tok);
         }
 
         [HttpPost("/api/[controller]/reviews")]
@@ -212,7 +249,9 @@ namespace ghettoBasa.Controllers
                 return BadRequest(ModelState);
             }
 
-            _users.CreateReview(review);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            _users.CreateReview(review, tok);
 
             return CreatedAtAction("GetReview", new { id = review.Id }, review);
         }
@@ -225,7 +264,9 @@ namespace ghettoBasa.Controllers
                 return BadRequest();
             }
 
-            var resp = _users.ReviewDeleteStatus(Id, true);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            var resp = _users.ReviewDeleteStatus(Id, true, tok);
 
             if (!resp)
             {
@@ -243,7 +284,9 @@ namespace ghettoBasa.Controllers
                 return BadRequest();
             }
 
-            var resp = _users.ReviewDeleteStatus(Id, false);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            var resp = _users.ReviewDeleteStatus(Id, false, tok);
 
             if (!resp)
             {
@@ -257,19 +300,25 @@ namespace ghettoBasa.Controllers
         [HttpGet("/api/[controller]/ratings/user/{userid}")]
         public IEnumerable<Ratings> GetUserRatings(string userid)
         {
-            return _users.GetUserRatings(userid);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            return _users.GetUserRatings(userid, tok);
         }
 
         [HttpGet("/api/[controller]/ratings/user-rating/{userid}")]
         public double GetUserRating(string userid)
         {
-            return _users.GetUserRating(userid);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            return _users.GetUserRating(userid, tok);
         }
 
         [HttpGet("/api/[controller]/ratings/{id}")]
         public Ratings GetRating(int id)
         {
-            return _users.GetRating(id);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            return _users.GetRating(id, tok);
         }
 
         [HttpPost("/api/[controller]/ratings")]
@@ -280,7 +329,9 @@ namespace ghettoBasa.Controllers
                 return BadRequest(ModelState);
             }
 
-            _users.CreateRating(rating);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            _users.CreateRating(rating, tok);
 
             return CreatedAtAction("GetRating", new { id = rating.Id }, rating);
         }
@@ -293,7 +344,9 @@ namespace ghettoBasa.Controllers
                 return BadRequest();
             }
 
-            var resp = _users.RatingDeleteStatus(Id, true);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            var resp = _users.RatingDeleteStatus(Id, true, tok);
 
             if (!resp)
             {
@@ -311,7 +364,9 @@ namespace ghettoBasa.Controllers
                 return BadRequest();
             }
 
-            var resp = _users.RatingDeleteStatus(Id, false);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            var resp = _users.RatingDeleteStatus(Id, false, tok);
 
             if (!resp)
             {

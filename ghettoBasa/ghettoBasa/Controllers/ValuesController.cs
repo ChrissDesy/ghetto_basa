@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SharedResources.Models;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace ghettoBasa.Controllers
 {
@@ -19,10 +20,23 @@ namespace ghettoBasa.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        [HttpGet("/decodedToken")]
+        public string DecodeToken()
         {
-            return id.ToString();
+
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            if (tok.Count == 0)
+            {
+                return "No Token";
+            }
+
+            tok = tok.ToString().Substring(7);
+
+            var token = new JwtSecurityToken(tok);
+            var claims = token.Claims.First(cl => cl.Type == "name");
+
+            return claims.Value;
         }
 
         // POST api/values
