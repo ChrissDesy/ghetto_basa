@@ -147,7 +147,7 @@ namespace IdentityServer.Services
             claims.Add(new Claim(JwtClaimTypes.Scope, "ghettoBasa-api"));
             claims.Add(new Claim(JwtClaimTypes.ClientId, "ghettoBasa-frontend"));
             claims.Add(new Claim(JwtClaimTypes.Name, username));
-            claims.Add(new Claim(JwtClaimTypes.ClientId, userId));
+            claims.Add(new Claim(JwtClaimTypes.Actor, userId));
             claims.Add(new Claim(JwtClaimTypes.Audience, "ghettoBasa-api"));
 
             var token = await _tools.IssueJwtAsync(

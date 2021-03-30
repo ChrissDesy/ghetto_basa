@@ -23,6 +23,7 @@ namespace ghettoBasa.Services
         public void CreateUser(Users user, string token)
         {
             user.UserId = GenerateUserId();
+            
 
             try
             {
@@ -40,15 +41,26 @@ namespace ghettoBasa.Services
                     UserRefe = user.UserId,
                     ResetRequest = "-"
                 };
-                var trail = new AuditTrails()
-                {
-                    
-                };
 
                 try
                 {
                     ctx.SystemUsers.Add(syUser);
                     ctx.SaveChanges();
+
+                    if (token != null)
+                    {
+                        var rec = getUsername(token);
+                        var trail = new AuditTrails()
+                        {
+                            UserRefere = rec.Item2,
+                            Username = rec.Item1,
+                            Action = "Create User",
+                            Service = "Users Service",
+                            Description = "Creation of a new user."
+                        };
+                        createTrail(trail);
+                    }
+
                     SendEmail(user.Email);
                 }
                 catch
@@ -67,12 +79,40 @@ namespace ghettoBasa.Services
             var users = from u in ctx.Users.Where(ab => ab.Deleted)
                         select u;
 
+            if (token != null)
+            {
+                var rec = getUsername(token);
+                var trail = new AuditTrails()
+                {
+                    UserRefere = rec.Item2,
+                    Username = rec.Item1,
+                    Action = "Get Deleted Users",
+                    Service = "Users Service",
+                    Description = "Get a list of all deleted users."
+                };
+                createTrail(trail);
+            }
+
             return users;
         }
 
         public Users GetUser(string UserId, string token)
         {
             var user = ctx.Users.Where(ab => ab.UserId == UserId).FirstOrDefault();
+
+            if (token != null)
+            {
+                var rec = getUsername(token);
+                var trail = new AuditTrails()
+                {
+                    UserRefere = rec.Item2,
+                    Username = rec.Item1,
+                    Action = "Get User",
+                    Service = "Users Service",
+                    Description = "Get a user's details."
+                };
+                createTrail(trail);
+            }
 
             return user;
         }
@@ -81,6 +121,20 @@ namespace ghettoBasa.Services
         {
             var user = ctx.Users.Where(ab => ab.Username == Username).FirstOrDefault();
 
+            if (token != null)
+            {
+                var rec = getUsername(token);
+                var trail = new AuditTrails()
+                {
+                    UserRefere = rec.Item2,
+                    Username = rec.Item1,
+                    Action = "Get User",
+                    Service = "Users Service",
+                    Description = "Get a user's details by username."
+                };
+                createTrail(trail);
+            }
+
             return user;
         }
 
@@ -88,6 +142,20 @@ namespace ghettoBasa.Services
         {
             var users = from u in ctx.Users.Where(ab => !ab.Deleted)
                         select u;
+
+            if (token != null)
+            {
+                var rec = getUsername(token);
+                var trail = new AuditTrails()
+                {
+                    UserRefere = rec.Item2,
+                    Username = rec.Item1,
+                    Action = "Get Users",
+                    Service = "Users Service",
+                    Description = "Get a list of all users."
+                };
+                createTrail(trail);
+            }
 
             return users;
         }
@@ -104,6 +172,21 @@ namespace ghettoBasa.Services
                 ctx.Entry(user).State = EntityState.Modified;
 
                 ctx.SaveChanges();
+
+                if (token != null)
+                {
+                    var rec = getUsername(token);
+                    var trail = new AuditTrails()
+                    {
+                        UserRefere = rec.Item2,
+                        Username = rec.Item1,
+                        Action = "Update User",
+                        Service = "Users Service",
+                        Description = "Update a user's details."
+                    };
+                    createTrail(trail);
+                }
+
                 return true;
             }
             catch
@@ -154,6 +237,21 @@ namespace ghettoBasa.Services
             try
             {
                 ctx.SaveChanges();
+
+                if (token != null)
+                {
+                    var rec = getUsername(token);
+                    var trail = new AuditTrails()
+                    {
+                        UserRefere = rec.Item2,
+                        Username = rec.Item1,
+                        Action = "Delete User",
+                        Service = "Users Service",
+                        Description = "Delete a user from system."
+                    };
+                    createTrail(trail);
+                }
+
                 return true;
             }
             catch
@@ -165,6 +263,20 @@ namespace ghettoBasa.Services
         public Users GetUserByIdentity(string Natid, string token)
         {
             var user = ctx.Users.Where(ab => ab.NationalId == Natid).FirstOrDefault();
+
+            if (token != null)
+            {
+                var rec = getUsername(token);
+                var trail = new AuditTrails()
+                {
+                    UserRefere = rec.Item2,
+                    Username = rec.Item1,
+                    Action = "Get User",
+                    Service = "Users Service",
+                    Description = "Get a user's details by identity."
+                };
+                createTrail(trail);
+            }
 
             return user;
         }
@@ -180,6 +292,21 @@ namespace ghettoBasa.Services
             try
             {
                 ctx.SaveChanges();
+
+                if (token != null)
+                {
+                    var rec = getUsername(token);
+                    var trail = new AuditTrails()
+                    {
+                        UserRefere = rec.Item2,
+                        Username = rec.Item1,
+                        Action = "User Status",
+                        Service = "Users Service",
+                        Description = "Change user status."
+                    };
+                    createTrail(trail);
+                }
+
                 return true;
             }
             catch
@@ -193,6 +320,20 @@ namespace ghettoBasa.Services
             var users = from u in ctx.Users.Where(ab => !ab.Deleted && ab.UserType == "Admin")
                         select u;
 
+            if (token != null)
+            {
+                var rec = getUsername(token);
+                var trail = new AuditTrails()
+                {
+                    UserRefere = rec.Item2,
+                    Username = rec.Item1,
+                    Action = "Get Users",
+                    Service = "Users Service",
+                    Description = "Get a list of Admin users."
+                };
+                createTrail(trail);
+            }
+
             return users;
         }
 
@@ -200,6 +341,20 @@ namespace ghettoBasa.Services
         {
             var users = from u in ctx.Users.Where(ab => !ab.Deleted && ab.UserType != "Admin")
                         select u;
+
+            if (token != null)
+            {
+                var rec = getUsername(token);
+                var trail = new AuditTrails()
+                {
+                    UserRefere = rec.Item2,
+                    Username = rec.Item1,
+                    Action = "Get Users",
+                    Service = "Users Service",
+                    Description = "Get a list of Client Users."
+                };
+                createTrail(trail);
+            }
 
             return users;
         }
@@ -213,6 +368,20 @@ namespace ghettoBasa.Services
                         select u;
 
             var count = ctx.Users.Where(bd => !bd.Deleted).Count();
+
+            if (token != null)
+            {
+                var rec = getUsername(token);
+                var trail = new AuditTrails()
+                {
+                    UserRefere = rec.Item2,
+                    Username = rec.Item1,
+                    Action = "Get Users",
+                    Service = "Users Service",
+                    Description = "Get paginated list of users."
+                };
+                createTrail(trail);
+            }
 
             var response = new MyResponse()
             {
@@ -235,6 +404,20 @@ namespace ghettoBasa.Services
 
             var count = ctx.Users.Where(bd => !bd.Deleted && bd.UserType == "Admin").Count();
 
+            if (token != null)
+            {
+                var rec = getUsername(token);
+                var trail = new AuditTrails()
+                {
+                    UserRefere = rec.Item2,
+                    Username = rec.Item1,
+                    Action = "Get Users",
+                    Service = "Users Service",
+                    Description = "Get paginated list of Admin users."
+                };
+                createTrail(trail);
+            }
+
             var response = new MyResponse()
             {
                 totalElements = count,
@@ -256,6 +439,20 @@ namespace ghettoBasa.Services
 
             var count = ctx.Users.Where(bd => !bd.Deleted && bd.UserType != "Admin").Count();
 
+            if (token != null)
+            {
+                var rec = getUsername(token);
+                var trail = new AuditTrails()
+                {
+                    UserRefere = rec.Item2,
+                    Username = rec.Item1,
+                    Action = "Get Users",
+                    Service = "Users Service",
+                    Description = "Get paginated list of Client users."
+                };
+                createTrail(trail);
+            }
+
             var response = new MyResponse()
             {
                 totalElements = count,
@@ -274,12 +471,40 @@ namespace ghettoBasa.Services
             var reviews = from r in ctx.Reviews.Where(ab => ab.UserRef == UserId && !ab.Deleted)
                           select r;
 
+            if (token != null)
+            {
+                var rec = getUsername(token);
+                var trail = new AuditTrails()
+                {
+                    UserRefere = rec.Item2,
+                    Username = rec.Item1,
+                    Action = "Get User Reviews",
+                    Service = "Users Service",
+                    Description = "Get a list of user reviews."
+                };
+                createTrail(trail);
+            }
+
             return reviews;
         }
 
         public Reviews GetReview(int Id, string token)
         {
             var review = ctx.Reviews.FirstOrDefault(ab => ab.Id == Id);
+
+            if (token != null)
+            {
+                var rec = getUsername(token);
+                var trail = new AuditTrails()
+                {
+                    UserRefere = rec.Item2,
+                    Username = rec.Item1,
+                    Action = "Get User Review",
+                    Service = "Users Service",
+                    Description = "Get a user review."
+                };
+                createTrail(trail);
+            }
 
             return review;
         }
@@ -290,6 +515,20 @@ namespace ghettoBasa.Services
             {
                 ctx.Reviews.Add(review);
                 ctx.SaveChanges();
+
+                if (token != null)
+                {
+                    var rec = getUsername(token);
+                    var trail = new AuditTrails()
+                    {
+                        UserRefere = rec.Item2,
+                        Username = rec.Item1,
+                        Action = "Create User Review",
+                        Service = "Users Service",
+                        Description = "Create a user review."
+                    };
+                    createTrail(trail);
+                }
             }
             catch
             {
@@ -306,6 +545,21 @@ namespace ghettoBasa.Services
             try
             {
                 ctx.SaveChanges();
+
+                if (token != null)
+                {
+                    var rec = getUsername(token);
+                    var trail = new AuditTrails()
+                    {
+                        UserRefere = rec.Item2,
+                        Username = rec.Item1,
+                        Action = "Delete User Review",
+                        Service = "Users Service",
+                        Description = "Delete a user review."
+                    };
+                    createTrail(trail);
+                }
+
                 return true;
             }
             catch
@@ -321,6 +575,20 @@ namespace ghettoBasa.Services
             var ratings = from r in ctx.Ratings.Where(ab => ab.UserRefer == UserId && !ab.Deleted)
                           select r;
 
+            if (token != null)
+            {
+                var rec = getUsername(token);
+                var trail = new AuditTrails()
+                {
+                    UserRefere = rec.Item2,
+                    Username = rec.Item1,
+                    Action = "Get User Ratings",
+                    Service = "Users Service",
+                    Description = "Get a list of user ratings."
+                };
+                createTrail(trail);
+            }
+
             return ratings;
         }
 
@@ -335,7 +603,21 @@ namespace ghettoBasa.Services
                 rt.Add(r.Rating);
             }
 
-            if(rt.Count > 0)
+            if (token != null)
+            {
+                var rec = getUsername(token);
+                var trail = new AuditTrails()
+                {
+                    UserRefere = rec.Item2,
+                    Username = rec.Item1,
+                    Action = "Get User Rating",
+                    Service = "Users Service",
+                    Description = "Get a user rating."
+                };
+                createTrail(trail);
+            }
+
+            if (rt.Count > 0)
             {
                 return rt.Average();
             }
@@ -349,6 +631,20 @@ namespace ghettoBasa.Services
         {
             var rating = ctx.Ratings.FirstOrDefault(ab => ab.Id == Id);
 
+            if (token != null)
+            {
+                var rec = getUsername(token);
+                var trail = new AuditTrails()
+                {
+                    UserRefere = rec.Item2,
+                    Username = rec.Item1,
+                    Action = "Get User Rating",
+                    Service = "Users Service",
+                    Description = "Get a user rating."
+                };
+                createTrail(trail);
+            }
+
             return rating;
         }
 
@@ -358,6 +654,20 @@ namespace ghettoBasa.Services
             {
                 ctx.Ratings.Add(rating);
                 ctx.SaveChanges();
+
+                if (token != null)
+                {
+                    var rec = getUsername(token);
+                    var trail = new AuditTrails()
+                    {
+                        UserRefere = rec.Item2,
+                        Username = rec.Item1,
+                        Action = "Create User Rating",
+                        Service = "Users Service",
+                        Description = "Create a user rating."
+                    };
+                    createTrail(trail);
+                }
             }
             catch
             {
@@ -374,6 +684,21 @@ namespace ghettoBasa.Services
             try
             {
                 ctx.SaveChanges();
+
+                if (token != null)
+                {
+                    var rec = getUsername(token);
+                    var trail = new AuditTrails()
+                    {
+                        UserRefere = rec.Item2,
+                        Username = rec.Item1,
+                        Action = "Delete User Rating",
+                        Service = "Users Service",
+                        Description = "Delete a user rating."
+                    };
+                    createTrail(trail);
+                }
+
                 return true;
             }
             catch
@@ -383,16 +708,33 @@ namespace ghettoBasa.Services
         }
 
         // get logged in user from token
-        public string getUsername(string theToken)
+        public Tuple<string, string> getUsername(string theToken)
         {
             var tok = "";
 
             tok = theToken.Substring(7);
 
             var token = new JwtSecurityToken(tok);
-            var claims = token.Claims.First(cl => cl.Type == "name");
+            var uname = token.Claims.First(cl => cl.Type == "name");
+            var userId = token.Claims.First(cl => cl.Type == "act");
 
-            return claims.Value;
+            return new Tuple<string, string>(uname.Value, userId.Value);
+        }
+
+        // post Trail
+        public bool createTrail(AuditTrails trail)
+        {
+            try
+            {
+                ctx.AuditTrail.Add(trail);
+                ctx.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

@@ -341,7 +341,7 @@ namespace ghettoBasa.Services
 
             var token = new JwtSecurityToken(tok);
             var uname = token.Claims.First(cl => cl.Type == "name");
-            var userId = token.Claims.First(cl => cl.Type == "clientId");
+            var userId = token.Claims.First(cl => cl.Type == "act");
 
             return new Tuple<string, string>(uname.Value, userId.Value);
         }

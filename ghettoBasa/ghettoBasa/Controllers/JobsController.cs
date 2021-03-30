@@ -359,6 +359,8 @@ namespace ghettoBasa.Controllers
                 return BadRequest();
             }
 
+            var tok = HttpContext.Request.Headers["Authorization"];
+
             var resp = _jobs.JobBidDeleteStatus(Id, true, tok);
 
             if (!resp)
