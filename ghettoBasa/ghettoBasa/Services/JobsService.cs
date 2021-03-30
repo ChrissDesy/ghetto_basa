@@ -333,16 +333,17 @@ namespace ghettoBasa.Services
         }
 
         // get logged in user from token
-        public string getUsername(string theToken)
+        public Tuple<string, string> getUsername(string theToken)
         {
             var tok = "";
 
             tok = theToken.Substring(7);
 
             var token = new JwtSecurityToken(tok);
-            var claims = token.Claims.First(cl => cl.Type == "name");
+            var uname = token.Claims.First(cl => cl.Type == "name");
+            var userId = token.Claims.First(cl => cl.Type == "clientId");
 
-            return claims.Value;
+            return new Tuple<string, string>(uname.Value, userId.Value);
         }
 
     }
