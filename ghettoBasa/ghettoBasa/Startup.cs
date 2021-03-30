@@ -37,6 +37,7 @@ namespace ghettoBasa
             // inject repository patterns, interfaces and services
             services.AddScoped<IUserRepository, UsersService>();
             services.AddScoped<IJobRepository, JobsService>();
+            services.AddScoped<IAuditRepository, AuditService>();
 
             // add authentication
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
