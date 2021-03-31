@@ -15,23 +15,15 @@ namespace ghettoBasa.Controllers
     {
         private static Random random = new Random();
 
-        // GET: api/Files
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
         // GET: api/Files/5
-        [HttpGet("{id}", Name = "Get")]
-        public ActionResult Get(string id)
+        [HttpGet("{filename}", Name = "Get")]
+        public ActionResult Get(string filename)
         {
-            var filePath = Path.Combine("Resources/Uploads", id);
+            var filePath = Path.Combine("Resources/Uploads", filename);
 
             byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
 
-            return File(fileBytes, "application/force-download", id);
-
+            return File(fileBytes, "application/force-download", filename);
 
         }
 
@@ -72,18 +64,6 @@ namespace ghettoBasa.Controllers
             {
                 return NoContent();
             }
-        }
-
-        // PUT: api/Files/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
 
         public static string RandomString(int length)

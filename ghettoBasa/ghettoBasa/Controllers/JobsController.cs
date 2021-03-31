@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using ghettoBasa.Repositories;
@@ -27,38 +28,50 @@ namespace ghettoBasa.Controllers
         [HttpGet]
         public IEnumerable<Jobs> Get()
         {
-            return _jobs.GetJobs();
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            return _jobs.GetJobs(tok);
         }
 
         [HttpGet("/api/[controller]/{page}/{size}")]
         public MyResponse GetPaginated(int page, int size)
         {
-            return _jobs.GetPagiatedJobs(page, size);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            return _jobs.GetPagiatedJobs(page, size, tok);
         }
 
         [HttpGet("/api/[controller]/deleted")]
         public IEnumerable<Jobs> GetDeletedJobs()
         {
-            return _jobs.GetDeletedJobs();
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            return _jobs.GetDeletedJobs(tok);
         }
 
         [HttpGet("/api/[controller]/user/{userId}")]
         public IEnumerable<Jobs> GetUserJobs(string userId)
         {
-            return _jobs.GetUserJobs(userId);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            return _jobs.GetUserJobs(userId, tok);
         }
 
         [HttpGet("/api/[controller]/user/{userId}/{page}/{size}")]
         public MyResponse GetPaginatedUserJobs(string userId, int page, int size)
         {
-            return _jobs.GetPaginatedUserJobs(userId, page, size);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            return _jobs.GetPaginatedUserJobs(userId, page, size, tok);
         }
 
         // GET: api/Jobs/5
         [HttpGet("{id}")]
         public Jobs GetJob(string id)
         {
-            return _jobs.GetJob(id);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            return _jobs.GetJob(id, tok);
         }
 
         // POST: api/Jobs
@@ -70,7 +83,9 @@ namespace ghettoBasa.Controllers
                 return BadRequest(ModelState);
             }
 
-            _jobs.CreateJob(job);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            _jobs.CreateJob(job, tok);
 
             return CreatedAtAction("GetJob", new { id = job.JobId }, job);
         }
@@ -83,7 +98,9 @@ namespace ghettoBasa.Controllers
                 return BadRequest();
             }
 
-            var resp = _jobs.ReOpenJob(jobId);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            var resp = _jobs.ReOpenJob(jobId, tok);
 
             if (!resp)
             {
@@ -101,7 +118,9 @@ namespace ghettoBasa.Controllers
                 return BadRequest();
             }
 
-            var resp = _jobs.JobStatus(jobId, "active");
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            var resp = _jobs.JobStatus(jobId, "active", tok);
 
             if (!resp)
             {
@@ -119,7 +138,9 @@ namespace ghettoBasa.Controllers
                 return BadRequest();
             }
 
-            var resp = _jobs.JobStatus(jobId, "disabled");
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            var resp = _jobs.JobStatus(jobId, "disabled", tok);
 
             if (!resp)
             {
@@ -143,7 +164,9 @@ namespace ghettoBasa.Controllers
                 return BadRequest();
             }
 
-            var resp = _jobs.UpdateJob(job);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            var resp = _jobs.UpdateJob(job, tok);
 
             if (!resp)
             {
@@ -162,7 +185,9 @@ namespace ghettoBasa.Controllers
                 return BadRequest();
             }
 
-            var resp = _jobs.JobDeleteStatus(jobId, false);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            var resp = _jobs.JobDeleteStatus(jobId, false, tok);
 
             if (!resp)
             {
@@ -180,7 +205,9 @@ namespace ghettoBasa.Controllers
                 return BadRequest();
             }
 
-            var resp = _jobs.JobDeleteStatus(jobId, true);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            var resp = _jobs.JobDeleteStatus(jobId, true, tok);
 
             if (!resp)
             {
@@ -195,25 +222,33 @@ namespace ghettoBasa.Controllers
         [HttpGet("/api/[controller]/bids/job/{jobId}")]
         public IEnumerable<JobBids> GetJobBids(string jobId)
         {
-            return _jobs.GetJobBids(jobId);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            return _jobs.GetJobBids(jobId, tok);
         }
 
         [HttpGet("/api/[controller]/bids/{Id}")]
         public JobBids GetJobBid(int Id)
         {
-            return _jobs.GetJobBid(Id);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            return _jobs.GetJobBid(Id, tok);
         }
 
         [HttpGet("/api/[controller]/bids/user/{userId}")]
         public IEnumerable<JobBids> GetUserJobBids(string userId)
         {
-            return _jobs.GetUserJobBids(userId);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            return _jobs.GetUserJobBids(userId, tok);
         }
 
         [HttpGet("/api/[controller]/successful-bids/user/{userId}")]
         public IEnumerable<Jobs> GetUserSuccessBids(string userId)
         {
-            return _jobs.GetUserSuccessfulJobBids(userId);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            return _jobs.GetUserSuccessfulJobBids(userId, tok);
         }
 
         [HttpPost("/api/[controller]/bids")]
@@ -224,7 +259,9 @@ namespace ghettoBasa.Controllers
                 return BadRequest(ModelState);
             }
 
-            _jobs.CreateJobBid(bid);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            _jobs.CreateJobBid(bid, tok);
 
             return CreatedAtAction("GetJobBid", new { id = bid.Id }, bid);
         }
@@ -237,7 +274,9 @@ namespace ghettoBasa.Controllers
                 return BadRequest(ModelState);
             }
 
-            _jobs.UpdateSuccessfulBidder(job, user);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            _jobs.UpdateSuccessfulBidder(job, user, tok);
 
             return Ok(GetJob(job));
         }
@@ -255,7 +294,9 @@ namespace ghettoBasa.Controllers
                 return BadRequest();
             }
 
-            var resp = _jobs.UpdateJobBid(bid);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            var resp = _jobs.UpdateJobBid(bid, tok);
 
             if (!resp)
             {
@@ -278,7 +319,9 @@ namespace ghettoBasa.Controllers
                 return BadRequest();
             }
 
-            var resp = _jobs.JobBidStatus(jobId, "disabled");
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            var resp = _jobs.JobBidStatus(jobId, "disabled", tok);
 
             if (!resp)
             {
@@ -296,7 +339,9 @@ namespace ghettoBasa.Controllers
                 return BadRequest();
             }
 
-            var resp = _jobs.JobBidDeleteStatus(Id, false);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            var resp = _jobs.JobBidDeleteStatus(Id, false, tok);
 
             if (!resp)
             {
@@ -314,7 +359,9 @@ namespace ghettoBasa.Controllers
                 return BadRequest();
             }
 
-            var resp = _jobs.JobBidDeleteStatus(Id, true);
+            var tok = HttpContext.Request.Headers["Authorization"];
+
+            var resp = _jobs.JobBidDeleteStatus(Id, true, tok);
 
             if (!resp)
             {

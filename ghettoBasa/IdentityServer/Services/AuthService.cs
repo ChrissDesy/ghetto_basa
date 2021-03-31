@@ -55,7 +55,7 @@ namespace IdentityServer.Services
                 return null;
             }
 
-            var tok = GenerateToken(cred.UserType, cred.Username);
+            var tok = GenerateToken(cred.UserType, cred.Username, user.UserRefe);
 
             string dnam = "";
 
@@ -139,7 +139,7 @@ namespace IdentityServer.Services
             return new Tuple<string, string>(EncPass, EncSalt);
         }
 
-        public async Task<string> GenerateToken(string role, string username)
+        public async Task<string> GenerateToken(string role, string username, string userId)
         {
             var claims = new HashSet<Claim>(new ClaimComparer());
 
@@ -147,6 +147,7 @@ namespace IdentityServer.Services
             claims.Add(new Claim(JwtClaimTypes.Scope, "ghettoBasa-api"));
             claims.Add(new Claim(JwtClaimTypes.ClientId, "ghettoBasa-frontend"));
             claims.Add(new Claim(JwtClaimTypes.Name, username));
+            claims.Add(new Claim(JwtClaimTypes.Actor, userId));
             claims.Add(new Claim(JwtClaimTypes.Audience, "ghettoBasa-api"));
 
             var token = await _tools.IssueJwtAsync(

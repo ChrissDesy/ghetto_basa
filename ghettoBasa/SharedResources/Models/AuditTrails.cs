@@ -10,7 +10,7 @@ namespace SharedResources.Models
         public string UserRefere { get; set; }
         public string Username { get; set; }
         public string Action { get; set; }
-        public DateTime? Date { get; set; }
+        public DateTime? Date { get; set; } = DateTime.Now;
         public string Service { get; set; }
         public string Description { get; set; }
     }
